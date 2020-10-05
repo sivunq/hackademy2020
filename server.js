@@ -19,7 +19,7 @@ const uri ='mongodb+srv://navdeep:2020tek12345@hackademy.usqxf.mongodb.net?retry
 
 app.get('/', (req, res) => {
 	console.log("here");
-    res.json({"message": "Welcome to Hackademy"});
+    res.json({"message": "Welcome to Hackademy2020"});
 	
 });
 
