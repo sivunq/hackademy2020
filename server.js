@@ -14,16 +14,16 @@ app.use(express.json());
 const dbName = "TEK2020";
 const collectionName = "paymentsHistory";
 
-const uri ='mongodb+srv://navdeep:2020tek12345@hackademy.usqxf.mongodb.net?retryWrites=true&w=majority'
-//const uri = process.env.ATLAS_URI;
+//const uri ='mongodb+srv://navdeep:2020tek12345@hackademy.usqxf.mongodb.net?retryWrites=true&w=majority'
+const uri = process.env.ATLAS_URI;
 
 app.get('/', (req, res) => {
 	console.log("here");
-    res.json({"message": "Welcome to Hackademy2020"});
+    res.json({"message": "Welcome to Hackademy"});
 	
 });
 
-app.get("/data", (request, response) => {
+app.get("/data/:invoice", (request, response) => {
 		
 	MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
 	if(error) throw error;
@@ -32,7 +32,9 @@ app.get("/data", (request, response) => {
 	database = client.db(dbName);
 	collection = database.collection(collectionName);
 	
-	collection.find({InvoiceNo:"536365"}).toArray((error, result) => {
+	let invoice=request.params.invoice;
+	
+	collection.find({InvoiceNo:`${invoice}`}).toArray((error, result) => {
 			if(error) {
 				return response.status(500).send(error);
 			}
