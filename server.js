@@ -10,11 +10,9 @@ var database,collection;
 app.use(cors());
 app.use(express.json());
 
-//const db = require("../db");
 const dbName = "TEK2020";
-const collectionName = "paymentsHistory";
+const collectionName = "predictions";
 
-//const uri ='mongodb+srv://navdeep:2020tek12345@hackademy.usqxf.mongodb.net?retryWrites=true&w=majority'
 const uri = process.env.ATLAS_URI;
 
 app.get('/', (req, res) => {
@@ -23,7 +21,7 @@ app.get('/', (req, res) => {
 	
 });
 
-app.get("/data/:invoice", (request, response) => {
+app.get("/data/:accountID", (request, response) => {
 		
 	MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
 	if(error) throw error;
@@ -32,9 +30,9 @@ app.get("/data/:invoice", (request, response) => {
 	database = client.db(dbName);
 	collection = database.collection(collectionName);
 	
-	let invoice=request.params.invoice;
+	let accountID=request.params.accountID;
 	
-	collection.find({InvoiceNo:`${invoice}`}).toArray((error, result) => {
+	collection.find({accountID:`${accountID}`}).toArray((error, result) => {
 			if(error) {
 				return response.status(500).send(error);
 			}
